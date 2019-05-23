@@ -44,13 +44,13 @@ public class FingerprintHandler extends FingerprintManagerCompat.AuthenticationC
         //I’m going to display the results of fingerprint authentication as a series of toasts.
         //Here, I’m creating the message that’ll be displayed if an error occurs//
         System.out.println("errString = " + errString);
-//        Toast.makeText(context, "Authentication error\n" + errString, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Authentication error\n" + errString, Toast.LENGTH_LONG).show();
     }
 
     //onAuthenticationFailed is called when the fingerprint doesn’t match with any of the fingerprints registered on the device//
     @Override
     public void onAuthenticationFailed() {
-//        Toast.makeText(context, "Authentication failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Authentication failed", Toast.LENGTH_LONG).show();
     }
 
 
@@ -59,7 +59,7 @@ public class FingerprintHandler extends FingerprintManagerCompat.AuthenticationC
     @Override
     public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
         System.out.println("helpString = " + helpString);
-//        Toast.makeText(context, "Authentication help\n" + helpString, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Authentication help\n" + helpString, Toast.LENGTH_LONG).show();
     }
 
     //onAuthenticationSucceeded is called when a fingerprint has been successfully matched to one of the fingerprints stored on the user’s device//
