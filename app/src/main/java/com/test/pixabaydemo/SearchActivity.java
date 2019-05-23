@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
     ImageAdapter imageAdapter;
     List<Images> imagesList;
     private String searchQuery = null;
-    private int total = 0 ;
+    private int total = 0;
     private int totalHits = 0;
     ArrayList<Hit> hits = new ArrayList<>();
 
@@ -61,7 +61,9 @@ public class SearchActivity extends AppCompatActivity {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE
+                        || event.getAction() == KeyEvent.ACTION_DOWN
+                        || event.getAction() == KeyEvent.KEYCODE_ENTER) {
                     searchQuery = editText.getText().toString();
                     System.out.println("editText.getText() = " + editText.getText());
                     getData();
@@ -69,6 +71,15 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                ((StaggeredGridLayoutManager)recyclerView.getLayoutManager()).invalidateSpanAssignments();
+            }
+        });
+
 
     }
 
@@ -81,10 +92,13 @@ public class SearchActivity extends AppCompatActivity {
         imagesCall.enqueue(new Callback<Images>() {
             @Override
             public void onResponse(Call<Images> call, Response<Images> response) {
-                Images imagesList = response.body();
-                total = imagesList.getTotal();
-                totalHits = imagesList.getTotalHits();
-                hits.addAll(imagesList.getHits());
+                Images imagesresponse = response.body();
+
+                if (imagesresponse != null) {
+                    total = imagesresponse.getTotal();
+                    totalHits = imagesresponse.getTotalHits();
+                    hits.addAll(imagesresponse.getHits());
+                }
                 imageAdapter.notifyDataSetChanged();
             }
 

@@ -41,11 +41,15 @@
                 android:padding="7dp" />
 
         </LinearLayout>
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/search_scroll_view"
+        <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:id="@+id/search_scroll_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <include
+            layout="@layout/search_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <include layout="@layout/search_content" />
-        </ScrollView>
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
+        <!--</ScrollView>-->
     </LinearLayout>
 </LinearLayout>

@@ -41,7 +41,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         imagesList.get(position);
         ImageView im = holder.thumbnail;
-        previewUrl = imagesList.get(position).getPreviewURL();
+        previewUrl = imagesList.get(position).getWebformatURL();
         if (previewUrl != null) {
             Glide.with(mContext).load(previewUrl).placeholder(R.drawable.pixabay_logo).apply(RequestOptions.bitmapTransform(new RoundedCorners(14))).into(im);
         } else {
