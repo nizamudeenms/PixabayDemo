@@ -1,11 +1,13 @@
 package com.test.pixabaydemo;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -53,7 +55,7 @@ public class SearchActivity extends AppCompatActivity {
         imageAdapter = new ImageAdapter(this, hits);
 
         final StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, VERTICAL);
-        mLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        mLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
 
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -61,11 +63,12 @@ public class SearchActivity extends AppCompatActivity {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE
-                        || event.getAction() == KeyEvent.ACTION_DOWN
-                        || event.getAction() == KeyEvent.KEYCODE_ENTER) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ) {
                     searchQuery = editText.getText().toString();
                     System.out.println("editText.getText() = " + editText.getText());
+                    editText.clearFocus();
+                    InputMethodManager in = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     getData();
                 }
                 return false;
@@ -86,8 +89,7 @@ public class SearchActivity extends AppCompatActivity {
     private void getData() {
 
         final Call<Images> imagesCall;
-        imagesCall = PixabayAPI.getPixabayService().getImages(BuildConfig.PIXABAY_KEY, searchQuery);
-
+        imagesCall = PixabayAPI.getPixabayService().getImages(BuildConfig.PIXABAY_KEY, searchQuery ,200);
 
         imagesCall.enqueue(new Callback<Images>() {
             @Override
@@ -97,6 +99,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (imagesresponse != null) {
                     total = imagesresponse.getTotal();
                     totalHits = imagesresponse.getTotalHits();
+                    hits.clear();
                     hits.addAll(imagesresponse.getHits());
                 }
                 imageAdapter.notifyDataSetChanged();

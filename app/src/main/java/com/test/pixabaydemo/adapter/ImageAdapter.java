@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.test.pixabaydemo.R;
 import com.test.pixabaydemo.model.Hit;
 
@@ -41,11 +39,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         imagesList.get(position);
         ImageView im = holder.thumbnail;
-        previewUrl = imagesList.get(position).getWebformatURL();
+        previewUrl = imagesList.get(position).getPreviewURL();
         if (previewUrl != null) {
-            Glide.with(mContext).load(previewUrl).placeholder(R.drawable.pixabay_logo).apply(RequestOptions.bitmapTransform(new RoundedCorners(14))).into(im);
+            Glide.with(mContext).load(previewUrl).placeholder(R.drawable.pixabay_thumb).into(im);
         } else {
-            Glide.with(mContext).load(R.drawable.pixabay_logo).placeholder(R.drawable.pixabay_logo).apply(RequestOptions.bitmapTransform(new RoundedCorners(14))).into(im);
+            Glide.with(mContext).load(R.drawable.pixabay_thumb).placeholder(R.drawable.pixabay_thumb).into(im);
         }
     }
 
@@ -66,7 +64,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             this.imagesList = images;
             this.context = context;
 
-            thumbnail = itemView.findViewById(R.id.thumbnail);
+            thumbnail = itemView.findViewById(R.id.thumbnail_image_view);
 
         }
     }
