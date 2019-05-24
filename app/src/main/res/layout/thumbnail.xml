@@ -16,5 +16,6 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
+        android:transitionName="example_transition"
         android:src="@drawable/pixabay_thumb" />
 </androidx.cardview.widget.CardView>

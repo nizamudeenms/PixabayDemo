@@ -6,9 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -42,7 +45,8 @@ public class SearchActivity extends AppCompatActivity {
     private int total = 0;
     private int totalHits = 0;
     ArrayList<Hit> hits = new ArrayList<>();
-
+    LinearLayout animLinearLayout;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,9 @@ public class SearchActivity extends AppCompatActivity {
 
         editText = (EditText) findViewById(R.id.search_edit_text);
         recyclerView = findViewById(R.id.recycler_view);
+        progressBar = findViewById(R.id.progress_horizontal_search);
+        animLinearLayout = findViewById(R.id.animation_linear_layout);
+        animLinearLayout.setVisibility(View.INVISIBLE);
 
         imageAdapter = new ImageAdapter(this, hits);
 
@@ -67,6 +74,7 @@ public class SearchActivity extends AppCompatActivity {
                     searchQuery = editText.getText().toString();
                     System.out.println("editText.getText() = " + editText.getText());
                     editText.clearFocus();
+                    animLinearLayout.setVisibility(View.INVISIBLE);
                     InputMethodManager in = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     getData();
@@ -90,17 +98,24 @@ public class SearchActivity extends AppCompatActivity {
 
         final Call<Images> imagesCall;
         imagesCall = PixabayAPI.getPixabayService().getImages(BuildConfig.PIXABAY_KEY, searchQuery ,200);
+        progressBar.setVisibility(View.VISIBLE);
 
         imagesCall.enqueue(new Callback<Images>() {
+
             @Override
             public void onResponse(Call<Images> call, Response<Images> response) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Images imagesresponse = response.body();
-
-                if (imagesresponse != null) {
+                System.out.println("imagesresponse.toString() = " + imagesresponse.toString());
+                System.out.println("imagesresponse.getTotalHits() = " + imagesresponse.getTotalHits());
+                if (imagesresponse.getTotalHits() > 0) {
                     total = imagesresponse.getTotal();
                     totalHits = imagesresponse.getTotalHits();
                     hits.clear();
                     hits.addAll(imagesresponse.getHits());
+                }else{
+                    hits.clear();
+                    animLinearLayout.setVisibility(View.VISIBLE);
                 }
                 imageAdapter.notifyDataSetChanged();
             }

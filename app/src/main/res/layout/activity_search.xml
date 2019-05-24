@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/search_linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -35,21 +36,57 @@
                 android:background="@drawable/rounded_edit_text"
                 android:drawableLeft="@drawable/ic_search_icon"
                 android:drawablePadding="5dp"
+                android:fontFamily="@font/cairo"
                 android:hint="Search"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:padding="7dp" />
 
         </LinearLayout>
-        <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:id="@+id/search_scroll_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-        <include
-            layout="@layout/search_content"
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp" />
-        <!--</ScrollView>-->
+            android:layout_height="match_parent">
+            <ProgressBar
+                android:id="@+id/progress_horizontal_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@android:color/black"
+                android:visibility="invisible"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+            <include
+                layout="@layout/search_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp" />
+
+            <LinearLayout
+                android:id="@+id/animation_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/alert_lottie"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/pixabay_thumb"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/alert" />
+
+                <TextView
+                    style="@style/BoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="Image Unavailable" />
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 </LinearLayout>

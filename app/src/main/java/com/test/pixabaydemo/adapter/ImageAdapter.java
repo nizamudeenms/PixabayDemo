@@ -1,28 +1,34 @@
 package com.test.pixabaydemo.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.test.pixabaydemo.ImageDetailActivity;
 import com.test.pixabaydemo.R;
 import com.test.pixabaydemo.model.Hit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     String TAG = ImageAdapter.class.getSimpleName();
-    List<Hit> imagesList;
+    ArrayList<Hit> imagesList;
     private Context mContext;
     String previewUrl = null;
 
 
-    public ImageAdapter( Context mContext, List<Hit> imagesList) {
+    public ImageAdapter( Context mContext, ArrayList<Hit> imagesList) {
         this.imagesList = imagesList;
         this.mContext = mContext;
     }
@@ -38,13 +44,26 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         imagesList.get(position);
-        ImageView im = holder.thumbnail;
+        final ImageView im = holder.thumbnail;
         previewUrl = imagesList.get(position).getPreviewURL();
         if (previewUrl != null) {
             Glide.with(mContext).load(previewUrl).placeholder(R.drawable.pixabay_thumb).into(im);
         } else {
             Glide.with(mContext).load(R.drawable.pixabay_thumb).placeholder(R.drawable.pixabay_thumb).into(im);
         }
+
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                Activity activity = (Activity) mContext;
+                intent.putParcelableArrayListExtra("details",  imagesList);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,im, ViewCompat.getTransitionName(im));
+                mContext.startActivity(intent, options.toBundle());
+            }
+        });
     }
 
     @Override
