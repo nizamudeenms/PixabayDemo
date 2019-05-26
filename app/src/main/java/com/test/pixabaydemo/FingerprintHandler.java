@@ -43,7 +43,6 @@ public class FingerprintHandler extends FingerprintManagerCompat.AuthenticationC
 
         //I’m going to display the results of fingerprint authentication as a series of toasts.
         //Here, I’m creating the message that’ll be displayed if an error occurs//
-        System.out.println("errString = " + errString);
         Toast.makeText(context, "Authentication error\n" + errString, Toast.LENGTH_LONG).show();
     }
 
@@ -58,7 +57,6 @@ public class FingerprintHandler extends FingerprintManagerCompat.AuthenticationC
     //so to provide the user with as much feedback as possible I’m incorporating this information into my toast//
     @Override
     public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-        System.out.println("helpString = " + helpString);
         Toast.makeText(context, "Authentication help\n" + helpString, Toast.LENGTH_LONG).show();
     }
 
@@ -67,7 +65,6 @@ public class FingerprintHandler extends FingerprintManagerCompat.AuthenticationC
     public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
 
         Toast.makeText(context, "Authentication Success!", Toast.LENGTH_LONG).show();
-        System.out.println("Success : result"+result);
 
         Intent intent = new Intent(context, SearchActivity.class);
         context.startActivity(intent);

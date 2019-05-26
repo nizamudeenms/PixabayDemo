@@ -27,7 +27,6 @@ import com.test.pixabaydemo.network.PixabayAPI;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +39,6 @@ public class SearchActivity extends AppCompatActivity {
     EditText editText;
     private RecyclerView recyclerView;
     ImageAdapter imageAdapter;
-    List<Images> imagesList;
     private String searchQuery = null;
     private int total = 0;
     private int totalHits = 0;
@@ -72,7 +70,6 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH ) {
                     searchQuery = editText.getText().toString();
-                    System.out.println("editText.getText() = " + editText.getText());
                     editText.clearFocus();
                     animLinearLayout.setVisibility(View.INVISIBLE);
                     InputMethodManager in = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -106,8 +103,6 @@ public class SearchActivity extends AppCompatActivity {
             public void onResponse(Call<Images> call, Response<Images> response) {
                 progressBar.setVisibility(View.INVISIBLE);
                 Images imagesresponse = response.body();
-                System.out.println("imagesresponse.toString() = " + imagesresponse.toString());
-                System.out.println("imagesresponse.getTotalHits() = " + imagesresponse.getTotalHits());
                 if (imagesresponse.getTotalHits() > 0) {
                     total = imagesresponse.getTotal();
                     totalHits = imagesresponse.getTotalHits();

@@ -55,10 +55,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (!fingerprintManager.hasEnrolledFingerprints()) {
             // User hasn't enrolled any fingerprints to authenticate with
-            System.out.println("User doent have any fingerprints");
         } else {
             // Everything is ready for fingerprint authentication
-            System.out.println("user has fingerprints saved");
 
             try {
                 generateKey();
