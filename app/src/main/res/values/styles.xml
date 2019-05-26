@@ -21,4 +21,14 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">24dp</item>
     </style>
+
+    <style name="RegularTextStyle" parent="FullscreenTheme.Theme">
+        <item name="android:fontFamily">@font/cairo</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:shadowColor">#FFFFFF</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
 </resources>

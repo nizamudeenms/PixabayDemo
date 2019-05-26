@@ -24,6 +24,7 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     String TAG = ImageAdapter.class.getSimpleName();
     ArrayList<Hit> imagesList;
+    Hit hitObject;
     private Context mContext;
     String previewUrl = null;
 
@@ -42,7 +43,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         imagesList.get(position);
         final ImageView im = holder.thumbnail;
         previewUrl = imagesList.get(position).getPreviewURL();
@@ -57,9 +58,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hitObject = imagesList.get(holder.getAdapterPosition());
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
                 Activity activity = (Activity) mContext;
-                intent.putParcelableArrayListExtra("details",  imagesList);
+                intent.putExtra("details",  hitObject);
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,im, ViewCompat.getTransitionName(im));
                 mContext.startActivity(intent, options.toBundle());
             }
